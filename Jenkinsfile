@@ -12,7 +12,7 @@ pipeline {
             }
         }
     }
-    stage('Build Image'){
+    stages('Build Image'){
         when {
             branch 'master'   
         }
