@@ -46,13 +46,7 @@ pipeline {
                 milestones(1)
                 withCredentials([usernamePassword(credentialsId: 'prod_credential',usernameVariable: 'USERNAME',passwordVariable: 'PASSWORD')]){
                     script{
-                        sh "sshpass -p '$PASSWORD' -v ssh -o StrictHostKeyChecking=no $USERNAME@$PROD_IP \"docker pull paungui/train-schedule:${env.BUILD_NUMBER}\""
-                        try{
-                            sh "sshpass -p '$PASSWORD' -v ssh -o StrictHostKeyChecking=no $USERNAME@$PROD_IP \"docker stop train-schedule\""
-                            sh "sshpass -p '$PASSWORD' -v ssh -o StrictHostKeyChecking=no $USERNAME@$PROD_IP \"docker rm train-schedule\""   
-                        }catch(err){
-                            echo: 'caught error: $err'
-                        }                        
+                        sh "sshpass -p '$PASSWORD' -v ssh -o StrictHostKeyChecking=no $USERNAME@$PROD_IP \"docker pull paungui/train-schedule:${env.BUILD_NUMBER}\""                 
                     }
                 }
             }
