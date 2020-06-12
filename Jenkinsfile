@@ -42,7 +42,7 @@ pipeline {
                 branch 'master'   
             }
             steps {
-                input('Deploy to proction?')
+                input 'Deploy to proction?'
                 milestones(1)
                 withCredentials([usernamePassword(credentialsId: 'prod_credential', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
                     script{
