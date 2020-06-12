@@ -37,5 +37,26 @@ pipeline {
                 }
             }
         }
+        stage('Deploy to Production'){
+            when {
+                branch 'master'   
+            }
+            steps {
+                input('Deploy to proction?')
+                milestones(1)
+                withCredentials([usernamePassword(credentialsId:'prod_credential',usernameVariable:'USERNAME',passwordVariable:'PASSWORD')]){
+                    script{
+                        sh "sshpass -p "$PASSWORD" -v ssh -o StrictHostKeyChecking=no $USERNAME@$PROD_IP \"docker pull paungui/train-schedule\""
+                        try{
+                            sh "sshpass -p "$PASSWORD" -v ssh -o StrictHostKeyChecking=no $USERNAME@$PROD_IP \"docker stop train-schedule\""
+                            sh "sshpass -p "$PASSWORD" -v ssh -o StrictHostKeyChecking=no $USERNAME@$PROD_IP \"docker rm train-schedule\""   
+                        }catch(err){
+                            echo: 'caught error: $err'
+                        }
+                        sh "sshpass -p "$PASSWORD" -v ssh -o StrictHostKeyChecking=no $USERNAME@$PROD_IP \"docker run -d -p 8080:8080 --restart always --name train-schedule paungui/train-schedule\""
+                    }
+                }
+            }
+        }
     }
 }
