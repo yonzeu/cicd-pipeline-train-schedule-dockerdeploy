@@ -47,6 +47,9 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'prod_credential',usernameVariable: 'USERNAME',passwordVariable: 'PASSWORD')]){
                     script{
                         sh "sshpass -p '$PASSWORD' -v ssh -o StrictHostKeyChecking=no $USERNAME@$PROD_IP \"docker pull paungui/train-schedule:${env.BUILD_NUMBER}\""                 
+                        sh "sshpass -p '$PASSWORD' -v ssh -o StrictHostKeyChecking=no $USERNAME@$PROD_IP \"docker stop train-schedule\""    
+                        sh "sshpass -p '$PASSWORD' -v ssh -o StrictHostKeyChecking=no $USERNAME@$PROD_IP \"docker rm train-schedule\""   
+                        sh "sshpass -p '$PASSWORD' -v ssh -o StrictHostKeyChecking=no $USERNAME@$PROD_IP \"docker run -d -p 8080:8080 --restart always paungui/train-schedule:${env.BUILD_NUMBER}\""                 
                     }
                 }
             }
