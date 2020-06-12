@@ -11,16 +11,16 @@ pipeline {
                 archiveArtifacts artifacts: 'dist/trainSchedule.zip'
             }
         }
-    }
-    stages('Build Image'){
-        when {
-            branch 'master'   
-        }
-        steps {
-            script{
-                image = docker.build($DOCKER_IMAGE) 
-                image.inside{
-                    sh 'echo Its works!'   
+        stage('Build Image'){
+            when {
+                branch 'master'   
+            }
+            steps {
+                script{
+                    image = docker.build($DOCKER_IMAGE) 
+                    image.inside{
+                        sh 'echo Its works!'   
+                    }
                 }
             }
         }
