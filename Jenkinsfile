@@ -29,7 +29,7 @@ pipeline {
                 branch 'master'   
             }
             steps {
-                srcipt{
+                script{
                     docker.withRegistry('registry.hub.docker.com','	docker_hub_credential'){
                         image.push("${env.BUILD_NUMBER}")
                         image.push("latest")
