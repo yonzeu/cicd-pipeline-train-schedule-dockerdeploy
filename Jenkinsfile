@@ -17,7 +17,7 @@ pipeline {
             }
             steps {
                 script{
-                    image = docker.build($DOCKER_IMAGE) 
+                    image = docker.build('paungui/train-schedule') 
                     image.inside{
                         sh 'echo Its works!'   
                     }
