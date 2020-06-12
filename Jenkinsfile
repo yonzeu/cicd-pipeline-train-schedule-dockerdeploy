@@ -52,8 +52,7 @@ pipeline {
                             sh "sshpass -p '$PASSWORD' -v ssh -o StrictHostKeyChecking=no $USERNAME@$PROD_IP \"docker rm train-schedule\""   
                         }catch(err){
                             echo: 'caught error: $err'
-                        }
-                        sh "sshpass -p '$PASSWORD' -v ssh -o StrictHostKeyChecking=no $USERNAME@$PROD_IP \"docker run -d -p 8080:8080 --restart always --name train-schedule paungui/train-schedule:${env.BUILD_NUMBER}\""
+                        }                        
                     }
                 }
             }
